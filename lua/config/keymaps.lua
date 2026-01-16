@@ -1,0 +1,5 @@
+vim.keymap.set("n", "<leader>rr", function()
+  local file = vim.fn.expand("%")
+  vim.cmd("write")
+  vim.cmd("terminal uv run python " .. file)
+end, { desc = "Run current Python file (uv)" })
