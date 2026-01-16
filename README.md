@@ -2,6 +2,9 @@
 
 ### 介绍
 我的lazyvim配置
+- 语法检测和代码补全识别到项目目录下的.venv虚拟环境
+- \<leader\>rr用uv使用项目下的.venv虚拟环境运行当前.py文件
+- Tab键补全，拒绝Enter键补全
 ### 快速开始
 1. 下载scoop
 2. 用scoop安装一堆东西
