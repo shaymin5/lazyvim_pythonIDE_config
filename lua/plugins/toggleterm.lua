@@ -11,7 +11,7 @@ return {
         shade_terminals = false, -- 重要：必须为 false 才能使高亮生效
         start_in_insert = true,
         insert_mappings = true,
-        persist_size = true,
+        persist_size = false,
         direction = "float", -- 浮动终端
 
         -- 浮动窗口设置
