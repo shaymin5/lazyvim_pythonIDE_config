@@ -1,24 +1,28 @@
-vim.keymap.set("n", "<leader>rr", function()
-    local file = vim.fn.expand("%")
-    vim.cmd("write")
-    vim.cmd("terminal uv run python " .. file)
-end, { desc = "Run current Python file (uv)" })
---
--- 删除可能的映射
-vim.keymap.del("n", "<C-/>")
-vim.keymap.del("n", "<C-_>")
-vim.keymap.del("t", "<C-/>")
-vim.keymap.del("t", "<C-_>")
+-- 在 lua/config/keymaps.lua 文件中添加以下内容
+local run_python = require("utils.run_python")
 
--- 设置新的映射
-vim.keymap.set("n", "<C-_>", "<cmd>ToggleTerm<CR>", { desc = "Toggle terminal" })
--- 如果你希望 <C-/> 也能工作，可以添加
-vim.keymap.set("n", "<C-/>", "<cmd>ToggleTerm<CR>", { desc = "Toggle terminal" })
---
-vim.keymap.set("i", "<C-/>", "<cmd>ToggleTerm<CR>", { desc = "Toggle terminal" })
-vim.keymap.set("i", "<C-_>", "<cmd>ToggleTerm<CR>", { desc = "Toggle terminal" })
--- vim.keymap.set("t", "<C-_>", ":q", { decs = "关闭terminal" })
--- vim.keymap.set("t", "<C-/>", ":q", { decs = "关闭terminal" })
--- 如果你希望终端内也能用相同的快捷键退出
-vim.keymap.set("t", "<C-_>", "<C-\\><C-n>:q<CR>", { desc = "Exit terminal mode" })
-vim.keymap.set("t", "<C-/>", "<C-\\><C-n>:q<CR>", { desc = "Exit terminal mode" })
+-- 运行 Python 文件
+vim.keymap.set("n", "<leader>rr", function()
+    run_python.run_python_file()
+end, { desc = "运行当前 Python 文件" })
+
+-- 打开 Python 终端（查看历史，不会运行新命令）
+vim.keymap.set("n", "<leader>rt", function()
+    run_python.focus_terminal()
+end, { desc = "打开 Python 终端（查看历史）" })
+
+-- keymap.lua
+local term_utils = require("utils.terminal")
+
+-- Normal / Insert mode: 打开/切换终端
+vim.keymap.set({ "n", "i" }, "<C-_>", function()
+    term_utils.toggle_project_terminal()
+end, { desc = "Toggle terminal at project root" })
+
+vim.keymap.set({ "n", "i" }, "<C-/>", function()
+    term_utils.toggle_project_terminal()
+end, { desc = "Toggle terminal at project root" })
+
+-- Terminal mode: 关闭终端
+vim.keymap.set("t", "<C-_>", "<C-\\><C-n>:q<CR>", { desc = "Close terminal" })
+vim.keymap.set("t", "<C-/>", "<C-\\><C-n>:q<CR>", { desc = "Close terminal" })
