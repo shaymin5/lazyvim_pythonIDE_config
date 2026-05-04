@@ -18,7 +18,7 @@ end
 -- 获取项目根目录
 function M.get_project_root()
     -- 尝试获取git根目录
-    local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null")
+    local git_root = vim.fn.system({ "git", "rev-parse", "--show-toplevel" })
     if vim.v.shell_error == 0 then
         return vim.trim(git_root)
     end

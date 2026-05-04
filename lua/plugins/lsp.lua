@@ -10,7 +10,7 @@ return {
           if vim.fn.isdirectory(venv) == 1 then
             config.settings = config.settings or {}
             config.settings.python = {
-              pythonPath = venv .. "/Scripts/python.exe",
+              pythonPath = require("utils.platform").python_venv_executable(venv),
             }
           end
         end,

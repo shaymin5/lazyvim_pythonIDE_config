@@ -9,7 +9,7 @@ M.python_id_counter = 200 -- 从 200 开始的 ID 范围
 -- 获取项目根目录
 function M.get_project_root()
     -- 尝试获取git根目录
-    local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null")
+    local git_root = vim.fn.system({ "git", "rev-parse", "--show-toplevel" })
     if vim.v.shell_error == 0 then
         return vim.trim(git_root)
     end
@@ -145,10 +145,8 @@ function M.run_python_file()
     local project_root = M.get_project_root()
     local term = M.get_python_terminal_for_project()
 
-    -- Windows 路径处理
-    if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
-        absolute_path = absolute_path:gsub("/", "\\")
-    end
+    -- 路径处理
+    absolute_path = require("utils.platform").normalize_path(absolute_path)
 
     -- 记录之前的状态
     local was_open = term:is_open()
